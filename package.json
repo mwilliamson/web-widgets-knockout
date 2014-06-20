@@ -1,0 +1,28 @@
+{
+  "name": "web-widgets-knockout",
+  "version": "0.1.0",
+  "author": "Michael Williamson <mike@zwobble.org>",
+  "description": "Use generic JavaScript widgets in Knockout, and create generic widgets using Knockout",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mwilliamson/web-widgets-knockout.git"
+  },
+  "peerDependencies": {
+    "knockout": "3.x"
+  },
+  "devDependencies": {
+    "nodeunit": "^0.9.0",
+    "knockout": "3.x",
+    "jsdom": "^0.11.0"
+  },
+  "scripts": {
+    "test": "nodeunit tests.js"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://opensource.org/licenses/BSD-2-Clause"
+    }
+  ]
+}
