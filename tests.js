@@ -1,6 +1,7 @@
 var strictEqual = require("assert").strictEqual;
 
 var jsdom = require("jsdom");
+var knockout;
 
 var widgetsKnockout;
 
@@ -86,6 +87,29 @@ exports["sub-widget can be bound dynamically"] = test(function(element) {
     strictEqual(stripComments(element.innerHTML), 'Hello <span data-bind="widget: shout, widgetOptions: {name: name}">BOB</span>');
 });
 
+exports["changing sub-widget changes rendered sub-widget"] = test(function(element) {
+    var shoutingWidget = function(element, options) {
+        element.innerHTML = options.name.toUpperCase();
+    };
+    var whisperingWidget = function(element, options) {
+        element.innerHTML = options.name.toLowerCase();
+    };
+
+    var subWidget = knockout.observable(shoutingWidget);
+
+    var widget = widgetsKnockout.create({
+        template: 'Hello <span data-bind="widget: shout, widgetOptions: {name: name}"></span>',
+        init: function(options) {
+            return {shout: subWidget, name: options.name};
+        }
+    });
+
+    widget(element, {name: "Bob"});
+    strictEqual(element.querySelector("span").innerHTML, 'BOB');
+    subWidget(whisperingWidget);
+    strictEqual(element.querySelector("span").innerHTML, 'bob');
+});
+
 var document = null;
 
 function createDocument(callback) {
@@ -94,6 +118,7 @@ function createDocument(callback) {
     if (document === null) {
         jsdom.env("<body></body>", function (errors, window) {
             global.document = document = window.document;
+            knockout = require("knockout");
             widgetsKnockout = require("./");
             createDocument(callback);
         });

@@ -5,16 +5,17 @@ exports.create = create;
 
 knockout.bindingHandlers.widget = {
     init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        var widget = knockout.unwrap(valueAccessor());
-        if (isString(widget)) {
-            var widgets = findWidgets(bindingContext);
-            widget = widgets[widget];
-        }
-        
-        var options = knockout.unwrap(allBindingsAccessor().widgetOptions);
+        knockout.computed(function() {
+            var widget = knockout.unwrap(valueAccessor());
+            if (isString(widget)) {
+                var widgets = findWidgets(bindingContext);
+                widget = widgets[widget];
+            }
+            
+            var options = knockout.unwrap(allBindingsAccessor().widgetOptions);
 
-        widget(element, options);
-        
+            widget(element, options);
+        });
         return {
             controlsDescendantBindings: true
         };
