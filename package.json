@@ -1,6 +1,6 @@
 {
   "name": "web-widgets-knockout",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Michael Williamson <mike@zwobble.org>",
   "description": "Use generic JavaScript widgets in Knockout, and create generic widgets using Knockout",
   "main": "./index.js",
