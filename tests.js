@@ -70,6 +70,22 @@ exports["dependencies of widget are renderable using widget binding within child
     strictEqual(element.textContent, 'Hello BOB');
 });
 
+exports["sub-widget can be bound dynamically"] = test(function(element) {
+    var shoutingWidget = function(element, options) {
+        element.innerHTML = options.name.toUpperCase();
+    };
+
+    var widget = widgetsKnockout.create({
+        template: 'Hello <span data-bind="widget: shout, widgetOptions: {name: name}"></span>',
+        init: function(options) {
+            return {shout: shoutingWidget, name: options.name};
+        }
+    });
+
+    widget(element, {name: "Bob"});
+    strictEqual(stripComments(element.innerHTML), 'Hello <span data-bind="widget: shout, widgetOptions: {name: name}">BOB</span>');
+});
+
 var document = null;
 
 function createDocument(callback) {
